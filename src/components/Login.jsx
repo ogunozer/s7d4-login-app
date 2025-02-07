@@ -6,7 +6,6 @@ function Login() {
     password: "",
     terms: false,
   });
-
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -19,21 +18,17 @@ function Login() {
 
   const validate = () => {
     let newErrors = {};
-
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(form.email)) {
       newErrors.email = "Geçerli bir email giriniz";
     }
-
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
     if (!passwordRegex.test(form.password)) {
       newErrors.password = "Şifre en az 6 karakter ve sayı-harf içermeli";
     }
-
     if (!form.terms) {
       newErrors.terms = "Şartları kabul etmeniz gerekiyor";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -41,9 +36,11 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      window.location.href = "/success"; 
+      window.location.href = "/success";
     }
   };
+
+  const isDisabled = !form.email || !form.password || !form.terms;
 
   return (
     <div>
@@ -51,45 +48,42 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email: </label>
-          <input 
+          <input
             name="email"
             type="text"
             value={form.email}
             onChange={handleChange}
           />
-          {errors.email && <p style={{color:"red"}}>{errors.email}</p>}
+          {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
         </div>
-
         <div>
           <label>Şifre: </label>
-          <input 
+          <input
             name="password"
             type="password"
             value={form.password}
             onChange={handleChange}
           />
-          {errors.password && <p style={{color:"red"}}>{errors.password}</p>}
+          {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
         </div>
-
         <div>
           <label>
-            <input 
+            <input
               name="terms"
-              type="checkbox" 
+              type="checkbox"
               checked={form.terms}
               onChange={handleChange}
             />
             Şartları kabul ediyorum
           </label>
-          {errors.terms && <p style={{color:"red"}}>{errors.terms}</p>}
+          {errors.terms && <p style={{ color: "red" }}>{errors.terms}</p>}
         </div>
-
-        <button type="submit" disabled={!validate()}>
+        <button type="submit" disabled={isDisabled}>
           Giriş Yap
         </button>
       </form>
     </div>
   );
 }
-// validasyon eklendi
+
 export default Login;
